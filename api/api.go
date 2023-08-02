@@ -3,6 +3,7 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"user_video/service"
 )
 
 type Req_clipVideo struct {
@@ -22,6 +23,11 @@ func UploadVideo(c *gin.Context) {
 	var req Req_clipVideo
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error:": err.Error()})
+	} else {
+		var v service.Video
+		if err := v.New_clip(&req).Clip_Video(c.Request.Context()); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error:": err.Error()})
+		}
 	}
 	c.JSON(http.StatusOK, gin.H{
 		"message":       "cliping video",
