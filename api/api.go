@@ -19,13 +19,14 @@ type Req_videoUrl struct {
 	Videoid string `json:"videoid" binding:"required"`
 }
 
+var video service.VideoService
+
 func UploadVideo(c *gin.Context) {
 	var req Req_clipVideo
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error:": err.Error()})
 	} else {
-		var v service.Video
-		if err := v.New_clip(&req).Clip_Video(c.Request.Context()); err != nil {
+		if err := video.Clip_Video(c.Request.Context(), req.UserId, req.StartTime, req.EndTime); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error:": err.Error()})
 		}
 	}

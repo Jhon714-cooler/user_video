@@ -12,6 +12,5 @@ func Routes() {
 
 	r.GET("/video/clip/result", api.GetVideo)
 	r.POST("/video/upload", api.UploadVideo)
-
 	r.Run(port)
 }

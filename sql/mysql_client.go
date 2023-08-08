@@ -1,19 +1,23 @@
 package sql
 
 import (
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 	"log"
-	"user_video/service"
+	"user_video/model"
 )
 
-var Mysql_cli *gorm.DB
+var instance *gorm.DB
 
-func NewClient() {
-	db, err := gorm.Open("mysql", "root:password@tcp(127.0.0.1:3306)/video_clip_api?charset=utf8mb4&parseTime=True&loc=Local")
+func init() {
+	db, err := gorm.Open("mysql", "root:123456@tcp(127.0.0.1:3306)/video_clip_api?charset=utf8mb4&parseTime=True&loc=Local")
 	if err != nil {
-		log.Panicln("mysql err")
+		log.Panicln("mysql client err :", err)
 	}
-	Mysql_cli = db
-	defer Mysql_cli.Close()
-	db.AutoMigrate(&service.ClipRequest{})
+	instance = db
+	db.AutoMigrate(&model.Video{})
+}
+
+func GetInstance() *gorm.DB {
+	return instance
 }
