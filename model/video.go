@@ -9,4 +9,5 @@ type Video struct {
 	FinishTime *time.Time `gorm:"colum:FinishTime" json:"finish_time"`  //剪辑结束时间
 	//StartTime  string     `gorm:"colum:StartTime" json:"start_time"`
 	//EndTime    string     `gorm:"colum:EndTime" json:"end_time"`
+	Url string `gorm:"colum:url" json:"url"`
 }
